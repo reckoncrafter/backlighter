@@ -1,6 +1,7 @@
 #!/bin/bash
 BACKLIGHT_DIR='/sys/class/backlight/intel_backlight/brightness'
-BL_OWNER=$(ls -l /sys/class/backlight/intel_backlight/brightness | awk '{print $3}')
+BL_OWNER=$(ls -l $BACKLIGHT_DIR | awk '{print $3}')
+MAX_BR=3485
 
 ## Do not accept empty paramater
 if [ -z "$2" ] || [ -z "$1" ]; then
@@ -21,22 +22,22 @@ if [ $BL_OWNER != $USER ] && [ $USER != 'root' ]; then
 	esac
 fi
 ## Allow user to choose number 0-100, instead of 0-3484
-let a=$2*3484/100
+let a=$2*$MAX_BR/100
 brightness=$(cat $BACKLIGHT_DIR)
 ## Defining Options...
 function set() {
-	if [ $a -lt 3485 ] && [ $a -gt -1 ]; then
+	if [ $a -lt $MAX_BR ] && [ $a -gt -1 ]; then
 		echo $a | tee $BACKLIGHT_DIR;
 	else
-		echo 3484 | tee $BACKLIGHT_DIR;
+		echo $MAX_BR | tee $BACKLIGHT_DIR;
 	fi
 }
 function inc() {
 	let b=$brightness+$a
-	if [ $b -lt 3484 ] && [ $a -gt -1 ]; then
+	if [ $b -lt $MAX_BR ] && [ $a -gt -1 ]; then
 		echo $b | tee $BACKLIGHT_DIR;
-	elif [ $b -gt 3484 ]; then
-		echo 3484 | tee $BACKLIGHT_DIR;
+	elif [ $b -gt $MAX_BR ]; then
+		echo $MAX_BR | tee $BACKLIGHT_DIR;
 	elif [ $a -lt -1 ]; then
 		echo "Error: Negative Integer";
 	fi
@@ -44,13 +45,13 @@ function inc() {
 function dec() {
 	let b=$brightness-$a
 	echo "result is "$b""
-	if [ $b -lt 3484 ] && [ $a -gt -1 ] && [ $b -gt -1 ]; then
+	if [ $b -lt $MAX_BR ] && [ $a -gt -1 ] && [ $b -gt -1 ]; then
 		echo $b | tee $BACKLIGHT_DIR;
-	elif [ $b -gt 3484 ]; then
+	elif [ $b -gt $MAX_BR ]; then
 		echo 3484 | tee $BACKLIGHT_DIR;
-	elif [ $a -lt -1 ]; then
+	elif [ $a -lt $MAX_BR ]; then
 		echo "Error: Negative Integer";
-	elif [ $b -lt -1 ]; then
+	elif [ $b -lt $MAX_BR ]; then
 		echo 0 | tee $BACKLIGHT_DIR;
 	fi
 }
