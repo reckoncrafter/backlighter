@@ -1,6 +1,8 @@
 # backlighter
 shell script for managing the backlight for laptops.
 
+A script like this can be useful if your Linux :penguin: installation does not recognize your brightness adjustment keys, or you are using an external keyboard without brightness keys. Shortcuts can be bound to the commands in this script.
+
 ## Requirements
 This script, by default assumes that your backlight brightness file is located at
 `/sys/class/backlight/intel_backlight/brightness`.
