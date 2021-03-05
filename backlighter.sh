@@ -1,7 +1,7 @@
 #!/bin/bash
 BACKLIGHT_DIR='/sys/class/backlight/intel_backlight/brightness'
 BL_OWNER=$(ls -l $BACKLIGHT_DIR | awk '{print $3}')
-MAX_BR=3485
+MAX_BR=3484
 
 ## Do not accept empty paramater
 if [ -z "$2" ] || [ -z "$1" ]; then
