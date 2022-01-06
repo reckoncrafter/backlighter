@@ -1,11 +1,11 @@
 #!/bin/bash
 BACKLIGHT_DIR='/sys/class/backlight/intel_backlight/brightness'
 BL_OWNER=$(ls -l $BACKLIGHT_DIR | awk '{print $3}')
-MAX_BR=3484
+MAX_BR=512
 
 ## Do not accept empty paramater
 if [ -z "$2" ] || [ -z "$1" ]; then
-	echo "usage: backlighter 0-100"
+	echo "usage: backlighter [set|inc|dec] 0-100"
 	exit
 fi
 
